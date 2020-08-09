@@ -1,0 +1,36 @@
+#include<SoftwareSerial.h>
+#include<Servo.h>
+
+Servo servo1;
+Servo servo2;
+Servo servo3;
+SoftwareSerial bluetooth(2,3); //RX AND TX
+
+//servo pins
+#define motor1 4
+#define motor2 5
+#define motor3 6
+void setup() {
+  //begin of the bluetooth module
+  bluetooth.begin(9600);
+  servo1.attach(motor1);
+  servo2.attach(motor2);
+  servo3.attach(motor3);
+
+}
+
+void loop() {
+  if(bluetooth.available()){
+   char data = bluetooth.read();
+   int angle = bluetooth.parseInt();
+   if(data=='s'){
+    servo1.write((int)angle);
+   }
+   if(data=='t') {
+    servo2.write((int)angle);
+   }
+   if(data=='a'){
+    servo3.write((int)angle);
+   }
+  }
+}
